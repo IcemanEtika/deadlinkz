@@ -9,7 +9,7 @@ init()
 def checkURL():
     with open(sys.argv[1], "r") as f:
         url = f.read()
-        links = re.findall("https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+", url)
+        links = re.findall(r'https?://[^\s<>"].[^\s<>"]+', url)
 
     for link in links:
         print(link)
@@ -26,7 +26,7 @@ if len(sys.argv) > 1:
     if sys.argv[1] != "v" and sys.argv[1] != "version":
         checkURL()
     else:
-        print("Dead Linkz v0.1")
+        print("deadlinkz v0.1")
         print("Made by IcemanEtika")
 else:
     print('\033[91m' + "No arguments inputted. The correct usage is main.py insert_website_here.html" + '\033[0m')
