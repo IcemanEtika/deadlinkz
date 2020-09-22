@@ -14,10 +14,10 @@ def checkURL():
     for link in links:
         print(link)
         r = requests.get(link)
-        if str(r) == "<Response [200]>":
+        if 200 <= r.status_code <= 299:
             print(Fore.GREEN + str(r) + " Response Good!" + Fore.RESET)
-        elif str(r) == "<Response [400]>" or str(r) == "<Response [404]>":
-            print(Fore.RED + str(r) + " Response Bad! There may be a problem with the website." + Fore.RESET)
+        elif 400 <= r.status_code <= 499:
+            print(Fore.RED + str(r) + " Response Bad! There may be a problem with the webpage." + Fore.RESET)
         else:
             print(str(r) + " Response Unknown!")
 
@@ -29,4 +29,4 @@ if len(sys.argv) > 1:
         print("deadlinkz v0.1")
         print("Made by IcemanEtika")
 else:
-    print('\033[91m' + "No arguments inputted. The correct usage is main.py insert_website_here.html" + '\033[0m')
+    print('\033[91m' + "No arguments inputted. The correct usage is main.py insert_website_here.html\nFor version info type main.py followed by either v or version" + '\033[0m')
