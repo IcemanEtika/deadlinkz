@@ -9,9 +9,7 @@ First clone the repository using
 
 `git clone https://github.com/IcemanEtika/deadlinkz.git`
 
-To run open cmd in root of the repo, and type main.py followed by one of the supported arguments
-
-The following arguments are supported by the tool:
+To run open cmd in root of the repo, and type main.py followed by one of the supported arguments:
 
 * -c or --check filename.extension
 * -v or --version
