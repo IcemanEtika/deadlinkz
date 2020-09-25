@@ -4,10 +4,10 @@ import sys
 import re
 
 from colorama import Fore, init
-init()
 
 
 def checkURL():
+    init()
     try:
         with open(sys.argv[2], "r") as f:
             links = re.findall(r'https?://[^\s<>"].[^\s<>"]+', f.read())  # find all urls and add them to the links array
