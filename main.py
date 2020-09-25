@@ -14,7 +14,7 @@ def checkURL():
 
         for link in links:
             try:
-                r = requests.head(link, timeout=15)  # gets the status code of the website
+                r = requests.head(link, timeout=10)  # gets the status code of the website
                 if 200 <= r.status_code <= 299:
                     print(Fore.GREEN + str(link) + " " + str(r) + " Good!")
                 elif 400 <= r.status_code <= 599:
@@ -36,5 +36,9 @@ parser = argparse.ArgumentParser(description='Checks for dead urls in a file')
 parser.add_argument('-c', '--check', help='Checks urls in text file (e.g, main.py -c index.html)')
 parser.add_argument('-v', '--version', action="version", version='deadlinkz v0.1', help='Displays version info')
 args = parser.parse_args()
+
+if len(sys.argv) == 1:
+    parser.print_help() # Display help if no arguments are inputted
+    sys.exit(1)
 
 checkURL()
