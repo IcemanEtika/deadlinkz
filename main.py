@@ -10,12 +10,11 @@ init()
 def checkURL():
     try:
         with open(sys.argv[2], "r") as f:
-            url = f.read()
-            links = re.findall(r'https?://[^\s<>"].[^\s<>"]+', url)  # find all urls and add them to the links array
+            links = re.findall(r'https?://[^\s<>"].[^\s<>"]+', f.read())  # find all urls and add them to the links array
 
         for link in links:
             try:
-                r = requests.get(link, timeout=15)  # gets the status code of the website
+                r = requests.head(link, timeout=15)  # gets the status code of the website
                 if 200 <= r.status_code <= 299:
                     print(Fore.GREEN + str(link) + " " + str(r) + " Good!")
                 elif 400 <= r.status_code <= 599:
