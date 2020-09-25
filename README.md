@@ -6,6 +6,7 @@ You will need Python 3.8.5 to run this tool. Get it <a href="https://www.python.
 # Features
 * Good links will appear green, bad will appear red, and unknown will appear grey
 * Supports windows and linux style arguments (e.g, --version and -v both work for version)
+* Gets only request headers for optimization
 
 # Run Instructions
 
