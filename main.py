@@ -1,13 +1,13 @@
 import argparse
 import requests
+import threading
 import sys
 import re
 
 from colorama import Fore, init
-init()
-
 
 def checkURL():
+    init()
     try:
         with open(sys.argv[2], "r") as f:
             links = re.findall(r'https?://[^\s<>"].[^\s<>"]+', f.read())  # find all urls and add them to the links array
@@ -37,4 +37,4 @@ parser.add_argument('-c', '--check', help='Checks urls in text file (e.g, main.p
 parser.add_argument('-v', '--version', action="version", version='deadlinkz v0.1', help='Displays version info')
 args = parser.parse_args()
 
-checkURL()
+threading.Thread(target=checkURL()).start()
