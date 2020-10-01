@@ -1,10 +1,10 @@
 import argparse
 import requests
+import threading
 import sys
 import re
 
 from colorama import Fore, init
-
 
 def checkURL():
     init()
@@ -37,8 +37,4 @@ parser.add_argument('-c', '--check', help='Checks urls in text file (e.g, main.p
 parser.add_argument('-v', '--version', action="version", version='deadlinkz v0.1', help='Displays version info')
 args = parser.parse_args()
 
-if len(sys.argv) == 1:
-    parser.print_help() # Display help if no arguments are inputted
-    sys.exit(1)
-
-checkURL()
+threading.Thread(target=checkURL()).start()
