@@ -14,7 +14,7 @@ def checkURL():
 
         for link in links:
             try:
-                r = requests.head(link, timeout=15)  # gets the status code of the website
+                r = requests.head(link, timeout=10)  # gets the status code of the website
                 if 200 <= r.status_code <= 299:
                     print(Fore.GREEN + str(link) + " " + str(r) + " Good!")
                 elif 400 <= r.status_code <= 599:

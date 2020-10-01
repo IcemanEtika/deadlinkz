@@ -7,6 +7,7 @@ You will need Python 3.8.5 to run this tool. Get it <a href="https://www.python.
 * Good links will appear green, bad will appear red, and unknown will appear grey
 * Supports windows and linux style arguments (e.g, --version and -v both work for version)
 * Supports parallelization via the use of threads
+* Gets only request headers for optimization
 
 # Run Instructions
 
