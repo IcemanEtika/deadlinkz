@@ -7,6 +7,7 @@ import re
 from colorama import Fore, init
 init()
 
+
 def checkGood(links):
     for link in links:
         try:
@@ -33,6 +34,7 @@ def checkBad(links):
 
 
 def checkURL():
+    exitCode = 0;
     try:
         with open(sys.argv[2], "r") as f:
             links = re.findall(r'https?://[^\s<>"].[^\s<>"]+', f.read())  # find all urls and add them to the links array
@@ -49,6 +51,7 @@ def checkURL():
                         print(Fore.GREEN + str(link) + " " + str(r) + " Good!" + Fore.RESET)
                     elif 400 <= r.status_code <= 599:
                         print(Fore.RED + str(link) + " " + str(r) + " Bad! There may be a problem with the webpage." + Fore.RESET)
+                        exitCode.append(1);
                     else:
                         print(str(link) + " " + str(r) + " Unknown!")
                 except requests.exceptions.RequestException:
@@ -56,10 +59,13 @@ def checkURL():
                 except requests.exceptions.Timeout:
                     print(Fore.RED + "Error: connection to website timed out!")
                 finally:
+                    exitCode = 1;
                     continue
     except FileNotFoundError:
+        exitCode = 2;
         print(Fore.RED + "Error: the file could not be opened.")
 
+    sys.exit(exitCode)
 
 # Create parser that allows for arguments to be used with the tool (-a, --all, -v, --version, -h, --help)
 parser = argparse.ArgumentParser(description='Checks for dead urls in a file')
@@ -70,3 +76,4 @@ parser.add_argument('-v', '--version', action="version", version='deadlinkz v0.1
 args = parser.parse_args()
 
 threading.Thread(target=checkURL()).start()
+sys.exit(0)
