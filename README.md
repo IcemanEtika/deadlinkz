@@ -17,7 +17,9 @@ First clone the repository using
 
 To run open cmd in root of the repo, and type main.py followed by one of the supported arguments:
 
-* -c or --check filename.extension
+* -a or --all filename.extension to check all URLs in file
+* -g or --good filename.extension to check only good URLs in file
+* -b or --bad filename.extension to check only bad URLs in file
 * -v or --version
 * -h or --help
 
