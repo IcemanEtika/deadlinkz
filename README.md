@@ -23,5 +23,16 @@ To run open cmd in root of the repo, and type main.py followed by one of the sup
 * -v or --version
 * -h or --help
 
+# Error Codes
+
+An error code of 0 means that the program functioned as correctly, 1 can appear when checking for all files and means that
+a broken/invalid URL was found in the file, and 2 means that the specified file could not be found.
+
+To get the error code after the program has functioned, you can use:
+
+`echo %ERRORLEVEL%`
+
+After execution finishes.
+
 Please note that index.txt is for test purposes only and you can modify/remove the file if you want to
 
