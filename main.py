@@ -36,20 +36,36 @@ def checkWithoutIgnoredLink(links):
     try:
         # Check the ignored text file from argument[3]
         with open(sys.argv[3], "r") as i:
-            texts = i.readlines();
+            texts = i.read().splitlines();
 
         if isValidTextFile(texts):
             # collect URL from text file
             r = re.compile('https?://[^\s<>"].[^\s<>"]+')
             ignoredLinks = list(filter(r.match, texts))
-            if len(ignoredLinks) > 0:
-                r2 = ignoredLinks[0]
-            else:
-                r2 = "^$" # if no URL in text file, ignored URL should be blank
+            ignored = False
+
             for link in links:
                 try:
-                    if re.match(r2, link):
-                        continue
+                    if len(ignoredLinks) > 0:
+                        for ig in ignoredLinks:
+                            if re.match(ig, link):
+                                ignored = True
+                                break
+                        if ignored:
+                            ignored = False
+                            continue
+                        else:
+                            ignored = False
+                            r = requests.head(link, timeout=10)  # gets the status code of the website
+                            if 200 <= r.status_code <= 299:
+                                print(Fore.GREEN + str(link) + " " + str(r) + " Good!" + Fore.RESET)
+                            elif 400 <= r.status_code <= 599:
+                                print(Fore.RED + str(link) + " " + str(r) + " Bad! There may be a problem with the webpage." + Fore.RESET)
+                                exitCode.append(1);
+                            else:
+                                print(str(link) + " " + str(r) + " Unknown!")
+                        
+                        
                     else:
                         r = requests.head(link, timeout=10)  # gets the status code of the website
                         if 200 <= r.status_code <= 299:
