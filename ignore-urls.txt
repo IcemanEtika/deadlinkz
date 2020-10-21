@@ -1,3 +1,4 @@
-https://www.google.com
-https://gbatemp.net
-https://www.youtube.com
+# urls below
+# https://www.google.com/
+https://gbatemp.net/
+https://www.youtube.com/
