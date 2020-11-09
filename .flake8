@@ -1,0 +1,10 @@
+[flake8]
+exclude =
+    README.md,
+    CONTRIBUTING.md,
+    ignore-urls.txt,
+    index.txt,
+    LICENSE,
+    .idea,
+    venv
+    
