@@ -36,9 +36,9 @@ def checkBadLinks(links):
             continue
 
 
-def checkUnignoredLinks(links):
+def checkUnignoredLinks(links, ignore):
     try:
-        with open(sys.argv[2], "r") as f:
+        with open(ignore, "r") as f:
             line = f.read()
             if line[0] == "#":
                 comment = True
@@ -48,10 +48,15 @@ def checkUnignoredLinks(links):
         urls = [
             x for x in links if x not in ignoredUrls
         ]  # remove ignored urls then check result
-        checkLinks(urls)
+        return urls
     except FileNotFoundError:
         print(f"{Fore.RED}Error: invalid text file.")
         sys.exit(2)
+
+
+def checkSingleLink(link):
+    r = requests.head(link)
+    return r
 
 
 def checkLinks(links):
@@ -63,15 +68,18 @@ def checkLinks(links):
                 print(f"{Fore.GREEN} {str(link)} {str(r)} Good! {Fore.RESET}")
             elif 400 <= r.status_code <= 599:
                 print(f"{Fore.RED} {str(link)} {str(r)} Bad!{Fore.RESET}")
+                exitCode = 1
             else:
                 print(f"{str(link)} {str(r)} Unknown!")
         except requests.exceptions.RequestException:
             print(f"{Fore.RED} Error: could not connect to website!")
-        except requests.exceptions.Timeout:
-            print(f"{Fore.RED} Error: connection to website timed out!")
-        finally:
             exitCode = 1
             continue
+        except requests.exceptions.Timeout:
+            print(f"{Fore.RED} Error: connection to website timed out!")
+            exitCode = 1
+            continue
+
     sys.exit(exitCode)
 
 
@@ -86,56 +94,62 @@ def checkTelescopePosts():
         checkLinks(links)
 
 
-def openFile():
-    exitCode = 0
-    index = 2
+def loadFile(filename):
     try:
+        with open(filename, "r") as f:
+            links = re.findall(
+                r'https?://[^\s<>"].[^\s<>"]+', f.read()
+            )  # find all urls and add them to array
+        return links
+    except FileNotFoundError:
+        print(f"{Fore.RED} Error: the file could not be opened.")
+        sys.exit(2)
+
+
+def main():
+    index = 2
+    if len(sys.argv) > 1:
         if sys.argv[1] == "-t" or sys.argv[1] == "--telescope":
             checkTelescopePosts()
         else:
-            if sys.argv[1] == "-i" or sys.argv[1] == "--ignore":
-                index = 3
-            with open(sys.argv[index], "r") as f:
-                links = re.findall(
-                    r'https?://[^\s<>"].[^\s<>"]+', f.read()
-                )  # find all urls and add them to array
+            links = loadFile(sys.argv[index])
+
             if sys.argv[1] == "-g" or sys.argv[1] == "--good":
                 checkGoodLinks(links)
             elif sys.argv[1] == "-b" or sys.argv[1] == "--bad":
                 checkBadLinks(links)
             elif sys.argv[1] == "-i" or sys.argv[1] == "--ignore":
-                checkUnignoredLinks(links)
+                ignore = sys.argv[3]
+                result = checkUnignoredLinks(links, ignore)
+                checkLinks(result)
             else:
                 checkLinks(links)
-    except FileNotFoundError:
-        exitCode = 2
-        print(f"{Fore.RED} Error: the file could not be opened.")
-
-    sys.exit(exitCode)
 
 
-# Create parser that allows for arguments to be used with the tool
-parser = argparse.ArgumentParser(description="Checks for dead urls in a file")
-parser.add_argument(
-    "-a", "--all", help="Checks urls in text file (e.g, main.py -c index.html)"
-)
-parser.add_argument("-g", "--good", help="Displays all good links in file")
-parser.add_argument("-b", "--bad", help="Displays all bad links in file")
-parser.add_argument(
-    "-v",
-    "--version",
-    action="version",
-    version="deadlinkz v0.1",
-    help="Displays version info",
-)
-parser.add_argument("-i", "--ignore", nargs="+", help="Ignore links")
-parser.add_argument(
-    "-t",
-    "--telescope",
-    action="store_true",
-    help="Checks Telescope links obtained from the API",
-)
-args = parser.parse_args()
+def parseArgs():
+    # Create parser that allows for arguments to be used with the tool
+    parser = argparse.ArgumentParser(description="Checks for dead urls in a file")
+    parser.add_argument(
+        "-a", "--all", help="Checks urls in text file (e.g, main.py -c index.html)"
+    )
+    parser.add_argument("-g", "--good", help="Displays all good links in file")
+    parser.add_argument("-b", "--bad", help="Displays all bad links in file")
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version="deadlinkz v0.1",
+        help="Displays version info",
+    )
+    parser.add_argument("-i", "--ignore", nargs="+", help="Ignore links")
+    parser.add_argument(
+        "-t",
+        "--telescope",
+        action="store_true",
+        help="Checks Telescope links obtained from the API",
+    )
+    return parser.parse_args()
 
-threading.Thread(target=openFile()).start()
-sys.exit(0)
+
+args = parseArgs()
+threading.Thread(target=main()).start()
