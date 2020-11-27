@@ -113,17 +113,19 @@ def main():
             checkTelescopePosts()
         else:
             links = loadFile(sys.argv[index])
-
-            if sys.argv[1] == "-g" or sys.argv[1] == "--good":
-                checkGoodLinks(links)
-            elif sys.argv[1] == "-b" or sys.argv[1] == "--bad":
-                checkBadLinks(links)
-            elif sys.argv[1] == "-i" or sys.argv[1] == "--ignore":
-                ignore = sys.argv[3]
-                result = checkUnignoredLinks(links, ignore)
-                checkLinks(result)
+            if len(links) == 0:
+                print(f"{Fore.RED} Error: no links found!")
             else:
-                checkLinks(links)
+                if sys.argv[1] == "-g" or sys.argv[1] == "--good":
+                    checkGoodLinks(links)
+                elif sys.argv[1] == "-b" or sys.argv[1] == "--bad":
+                    checkBadLinks(links)
+                elif sys.argv[1] == "-i" or sys.argv[1] == "--ignore":
+                    ignore = sys.argv[3]
+                    result = checkUnignoredLinks(links, ignore)
+                    checkLinks(result)
+                else:
+                    checkLinks(links)
 
 
 def parseArgs():
