@@ -6,9 +6,11 @@ If there's any issues that interest you leave a comment and I'll assign you to t
 
 ## Requirements
 
-It's recommended that you use either Python 3.7, 3.8, or 3.9 to run this tool. Get them <a href="https://www.python.org/downloads/">here</a> if you don't have it
+It's recommended that you use either Python 3.7, 3.8, or 3.9 to run this tool. You can find them <a href="https://www.python.org/downloads/">here</a> 
 
-You will also need [Flake8](https://flake8.pycqa.org/en/latest/index.html) and [Black](https://pypi.org/project/black/) for formatting purposes
+You will need [Flake8](https://flake8.pycqa.org/en/latest/index.html) and [Black](https://pypi.org/project/black/) for formatting purposes
+
+For testing, you will need [Pytest](https://docs.pytest.org/en/stable/getting-started.html) 
 
 If you want Telescope functionality you can install it [here](https://github.com/Seneca-CDOT/telescope)
 
