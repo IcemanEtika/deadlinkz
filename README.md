@@ -9,11 +9,15 @@ Python tool that checks for dead urls in a txt or html file
 
 # Run Instructions
 
+Make sure that you have a txt or html file in the folder containing deadlinkz before you try checking for files.
+
 To run open cmd in root of the repo, and type deadlinkz.py followed by one of the supported arguments:
 
 * -a or --all filename.extension to check all URLs in file
 * -g or --good filename.extension to check only good URLs in file
 * -b or --bad filename.extension to check only bad URLs in file
+* -i or --ignore filename.extension ignored_urls.extension to ignore urls when checking
+* -t or --telescope to check for valid telescope links
 * -v or --version
 * -h or --help
 
