@@ -22,6 +22,14 @@ Clone the repository using the following command:
 
 You should be good to go after doing this. Please refer to README.md for run instructions.
 
+Alternatively, you can install it using pip install deadlinkz. Make sure that you have a venv already setup. If you don't, do the following:
+
+python -m venv dl
+
+\dl\Scripts\activate.bat
+
+pip install deadlinkz
+
 ## Source Code Formatting
 
 After you make any changes, be sure to run the formatter. To do this, use the following command:
